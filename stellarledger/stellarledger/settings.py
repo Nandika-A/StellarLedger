@@ -19,12 +19,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+srt$$2+$uy_ms%^ly#8dpbpx9(mr*m5x@&j40_4**bzm6x^k@'
+SECRET_KEY = 'django-insecure-+srt$$2+$uy_ms%^ly#8dpbpx9(mr*m5x@&j40_4**bzm^k@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.microsoft',
-    'allauth.socialaccount.providers.discord',
 ]
 
 MIDDLEWARE = [
@@ -157,5 +155,6 @@ SOCIALACCOUNT_PROVIDERS = {
         'OAUTH_PKCE_ENABLED': True,
     }
 }
+SITE_ID = 1
 
 LOGIN_REDIRECT_URL='home'
