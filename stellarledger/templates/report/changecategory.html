@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="post", action="{% url 'viewTransaction' %}">
+    {% csrf_token %}
+    <select name="category">
+        <option value="" disabled selected>Select category</option>
+        {% for pf in cat %}
+        <option value="{{ pf }}">{{ pf }}</option>
+        {% endfor %}
+      </select>
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

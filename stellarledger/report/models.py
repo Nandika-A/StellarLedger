@@ -4,14 +4,25 @@ from django.contrib.auth import User
 # Create your models here.
 
 class Transaction(models.Model):
-    sender = models.CharField(max_length=150)
-    receiver = models.CharField(max_length=150)
+    PAID = [
+        ('Yes', 'Yes'),
+        ('No', 'No')
+    ]
+
+    ROLE=[
+        ('sender','sender'),
+        ('receiver', 'receiver')
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_role = models.CharField(max_length=10, choices=ROLE, default="sender")
+    to_or_from = models.CharField(max_length=150)
     amount = models.DecimalField()
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(blank=True)
     category = models.CharField(max_length=20)
+    recurring = models.CharField(max_length=3, choices=PAID, default='Yes')
 
     def __str__(self):
-        return (self.sender, self.receiver)
+        return self.to_or_from
 
 class Category(models.Model):
     category = models.CharField(max_length=20)
