@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'report',
     'friends',
-    'user',
     'home',
     'allauth',
     'allauth.account',
@@ -158,3 +157,19 @@ SOCIALACCOUNT_PROVIDERS = {
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL='home'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER="naseparatespace@gmail.com"
+EMAIL_HOST_PASSWORD=""
+
+ACCOUNT_AUTHENTICATION_METHOD='username_email'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=10
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_EMAIL_VERIFICATION='None'
+
+ACCOUNT_FORMS = {
+'signup': 'stellarledger.forms.CustomSignupForm',
+}
