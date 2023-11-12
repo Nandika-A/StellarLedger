@@ -17,7 +17,7 @@ class Transaction(models.Model):
     user_role = models.CharField(max_length=10, choices=ROLE, default="sender")
     to_or_from = models.CharField(max_length=150)
     amount = models.DecimalField()
-    timestamp = models.DateTimeField(blank=True)
+    timestamp = models.DateTimeField()
     category = models.CharField(max_length=20)
     recurring = models.CharField(max_length=3, choices=PAID, default='Yes')
 

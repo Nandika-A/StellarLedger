@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Transaction, Category
 from .forms import RecordTransactionForm, RecordCategoryForm
+from datetime import date
+from django.utils.timezone import timedelta
 
 # Create your views here.
 
@@ -56,20 +58,46 @@ def deleteTransaction(request, id):
     return redirect('viewTransaction')
 
 def viewTransactions(request):
-    txn = Transaction.objects.filter(user=request.user)
-    total_expenses=getExpenses(request.user)
-    savings=getSavings(request.user)
+    if request.method == 'GET':
+        time_filter = request.GET['time_filter']
+        if time_filter == 'day':
+            txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(days=1))
+        if time_filter == 'week':
+            txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(weeks=1))
+        if time_filter == 'month':
+            txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(days=30))
+        if time_filter == 'year':
+            txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(days=365))
+    else:
+        txn = Transaction.objects.filter(user=request.user)
+    total_expenses=getExpenses(txn)
+    savings=getSavings(txn)
     return render(request, 'report/viewtransactions.html', {
         'txn':txn,
         'expenses': total_expenses,
         'savings': savings
     })
 
-def getExpenses(user):
-    pass
+def getExpenses(txn):
+    # total amount debited = sum of debited only
+    sum = 0
+    for t in txn:
+        if t.user_role == "sender":
+            sum += t.amount
 
-def getSavings(user):
-    pass
+    return sum
+
+def getSavings(txn):
+    # amount earned - amount spent
+    sum1 = 0
+    sum2 = 0
+    for t in txn:
+        if t.user_role == "sender":
+            sum1 += t.amount
+        else:
+            sum2 += t.amount
+    
+    return sum2-sum1
 
 def changeTransactionCategory(request, id):
     txn = Transaction.objects.get(pk=id)
@@ -83,4 +111,5 @@ def changeTransactionCategory(request, id):
     })
 
 def recurringbills(request):
-    pass
+    txn = Transaction.objects.filter(user=request.user, recurring='No')
+    time_left = txn.timestamp
