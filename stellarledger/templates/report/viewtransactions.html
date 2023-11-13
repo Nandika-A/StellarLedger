@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method = 'get' action = '.'>
+    {% csrf_token %}
+    <select name="time_filter">
+        <option value="day">Daily</option>
+        <option value="week">Weekly</option>
+        <option value="month">Monthly</option>
+        <option value="year">Annual</option>
+      </select>
+      <button type="submit" class="app">Apply</button>
+</form>
+
+<div>
+    {% for t in txn %}
+    <div>{{t.user_role}}</div>
+    <div>{{t.to_or_from}}</div>
+    <div>{{t.amount}}</div>
+    <div>{{t.timestamp}}</div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'crispy_forms',
-    'django_filters'
+    'django_filters',
+    'crispy_bootstrap4',
+    'django_celery_results',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -164,8 +167,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER="naseparatespace@gmail.com"
-EMAIL_HOST_PASSWORD=""
+EMAIL_HOST_USER="stellarledger117@gmail.com"
+EMAIL_HOST_PASSWORD="pmfw drcm yxgw hqdu"
 
 ACCOUNT_AUTHENTICATION_METHOD='username_email'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=10
@@ -175,3 +178,27 @@ ACCOUNT_EMAIL_VERIFICATION='None'
 ACCOUNT_FORMS = {
 'signup': 'stellarledger.forms.CustomSignupForm',
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_CACHE_BACKEND = 'django-cache'
+
+# CELERY_CACHE_BACKEND = 'default'
+
+# # django setting.
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',
+#     }
+# }
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

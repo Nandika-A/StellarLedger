@@ -3,73 +3,74 @@ from .models import Transaction, Category
 from .forms import RecordTransactionForm, RecordCategoryForm
 from datetime import date
 from django.utils.timezone import timedelta
+from .tasks import get_in_mail
+from allauth.account.decorators import verified_email_required
 
 # Create your views here.
-
+@verified_email_required
 def recordTransaction(request):
     if request.method == 'POST':
         form = RecordTransactionForm(request.POST)
         if form.is_valid():
-            to_or_from = form.cleaned_data['to_or_from']
-            user_role = form.cleaned_data['user_role']
-            amount = form.cleaned_data['amount']
-            timestamp = form.cleaned_data['timestamp']
-            category = form.cleaned_data['category']
-            recurring = form.cleaned_data['recurring']
-            form.save()
-            transaction = Transaction.objects.create(user=request.user, to_or_from=to_or_from, user_role=user_role, amount=amount, timestamp=timestamp, category=category, recurring=recurring)
-            transaction.save()
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            return redirect('viewTransaction') 
+        
     else:
-        form = RecordTransactionForm()
-    
+        form = RecordTransactionForm(request.POST)
     return render(request, 'report/recordtransaction.html', {
         'form':form
     })
 
+@verified_email_required
 def createCategory(request):
     if request.method == 'POST':
         form = RecordCategoryForm(request.POST)
         if form.is_valid():
-            category = form.cleaned_data['category']
-            form.save()
-            category = Category.objects.create(category=category)
+            category = form.save(commit=False)
+            category.user = request.user
             category.save()
+            return redirect('viewCategories') 
     else:
-        form = RecordCategoryForm()
+        form = RecordCategoryForm(request.POST)
     
-    return render(request, 'report/recordcategory.html', {
+    return render(request, 'report/recordCategory.html', {
         'form':form
     })
 
+@verified_email_required
 def deleteCategory(request, id):
     category = Category.objects.get(pk=id)
     category.delete()
     return redirect('viewCategories')
 
+@verified_email_required
 def viewCategory(request):
     category = Category.objects.filter(user=request.user)
     return render(request, 'report/viewcategories.html', {
         'categories':category
     })
-    
+
+@verified_email_required    
 def deleteTransaction(request, id):
     txn = Transaction.objects.get(pk=id)
     txn.delete()
     return redirect('viewTransaction')
 
+@verified_email_required
 def viewTransactions(request):
+    txn = Transaction.objects.filter(user=request.user)
     if request.method == 'GET':
-        time_filter = request.GET['time_filter']
+        time_filter = request.GET.get('time_filter')
         if time_filter == 'day':
             txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(days=1))
         if time_filter == 'week':
-            txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(weeks=1))
+            txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(days=7))
         if time_filter == 'month':
             txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(days=30))
         if time_filter == 'year':
             txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(days=365))
-    else:
-        txn = Transaction.objects.filter(user=request.user)
     total_expenses=getExpenses(txn)
     savings=getSavings(txn)
     return render(request, 'report/viewtransactions.html', {
@@ -78,6 +79,7 @@ def viewTransactions(request):
         'savings': savings
     })
 
+@verified_email_required
 def getExpenses(txn):
     # total amount debited = sum of debited only
     sum = 0
@@ -87,6 +89,7 @@ def getExpenses(txn):
 
     return sum
 
+@verified_email_required
 def getSavings(txn):
     # amount earned - amount spent
     sum1 = 0
@@ -99,6 +102,7 @@ def getSavings(txn):
     
     return sum2-sum1
 
+@verified_email_required
 def changeTransactionCategory(request, id):
     txn = Transaction.objects.get(pk=id)
     cat = Category.objects.all()
@@ -110,6 +114,9 @@ def changeTransactionCategory(request, id):
         'cat': cat
     })
 
+@verified_email_required
 def recurringbills(request):
-    txn = Transaction.objects.filter(user=request.user, recurring='No')
-    time_left = txn.timestamp
+    txn = Transaction.objects.filter(user=request.user, recurring='Yes', timestamp__gt=date.today())
+    return render(request, 'report/recurring.html', {
+        'txn': txn
+    })  
