@@ -60,6 +60,7 @@ def deleteTransaction(request, id):
 @verified_email_required
 def viewTransactions(request):
     txn = Transaction.objects.filter(user=request.user)
+    cat = Category.objects.filter(user=request.user)
     if request.method == 'GET':
         time_filter = request.GET.get('time_filter')
         if time_filter == 'day':
@@ -72,8 +73,11 @@ def viewTransactions(request):
             txn = Transaction.objects.filter(user=request.user, timestamp__gt=date.today() - timedelta(days=365))
     total_expenses=getExpenses(txn)
     savings=getSavings(txn)
+    if savings < 0:
+        savings = 0
     return render(request, 'report/viewtransactions.html', {
         'txn':txn,
+        'cat':cat,
         'expenses': total_expenses,
         'savings': savings
     })

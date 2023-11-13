@@ -1,24 +1,67 @@
-{% extends 'base.html' %}
+{% extends '../base.html' %}
 {% block content %}
-
-<form method = 'get' action = '.'>
+{% include '../navbar.html' %}
+<br>
+<br>
+<form method = 'get' action = '.' class="form-inline">
     {% csrf_token %}
-    <select name="time_filter">
+    <div class="form-group mx-sm-3 mb-2">
+    <select name="time_filter" class="sel-front">
         <option value="day">Daily</option>
         <option value="week">Weekly</option>
         <option value="month">Monthly</option>
         <option value="year">Annual</option>
       </select>
-      <button type="submit" class="app">Apply</button>
+    </div>
+      <button type="submit" class="btn mb-2" style="background-color: #c1c8e4;">Apply</button>
 </form>
 
-<div>
-    {% for t in txn %}
-    <div>{{t.user_role}}</div>
-    <div>{{t.to_or_from}}</div>
-    <div>{{t.amount}}</div>
-    <div>{{t.timestamp}}</div>
-    {% endfor %}
+<div class="card text-center">
+    {% for c in cat %}
+    <div class="text-center padding">
+    <div class="card-header">
+      {{c.category}}
+    </div>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">User Role</th>
+                <th scope="col">To or From</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+                <th scope="col">Is recurring</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+        </thead>
+        <tbody>
+        {% for t in txn %}
+        {% if c.category == t.category %}
+        <!-- <div style="margin:80px"> -->
+            <tr>
+            <td>{{t.user_role}}</td>
+            <td>{{t.to_or_from}}</td>
+            <td>{{t.amount}}</td>
+            <td>{{t.timestamp}}</td>
+            <td>{{ t.recurring }}</td>
+            <td><span class="badge badge-pill" style="color:aliceblue;"><a href="{% url 'deleteTransaction' t.id %}">Delete</a></span></td>
+            <td><span class="badge badge-pill" style="color:aliceblue;"><a href="{% url 'changecategory' t.id %}">Change category</a></span></td>
+            </tr>
+        </div>
+      {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
-
+  {% endfor %}
+</div>
+<br>
+<h5>
+<div class="d-inline p-2 ">Total Savings: {{savings}}</div>
+<div class="d-inline p-2 ">Total Expenses: {{expenses}}</div>
+</h5>
+<div class=" d-flex align-items-center justify-content-center">
+  <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important;"><a href="{% url 'record' %}">Record Transaction</a></button>
+</div>
 {% endblock %}

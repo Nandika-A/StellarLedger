@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 {% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #b3daff;">
-    <a class="navbar-brand" href=".">Stellar Ledger</a>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8860d0;">
+    <a class="navbar-brand" href="{% url 'home' %}">Stellar Ledger</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -21,7 +21,7 @@
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item dropdown">
-          <button class="nav-link dropdown-toggle" onclick="dropdown()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #b3daff;">
+          <button class="nav-link dropdown-toggle" onclick="dropdown()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #8860d0;">
             {{ user.username }}
           </button>
           <div class="dropdown-menu" id="dropdownuser">
