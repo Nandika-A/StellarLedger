@@ -3,7 +3,6 @@ from .models import Transaction, Category
 from .forms import RecordTransactionForm, RecordCategoryForm
 from datetime import date
 from django.utils.timezone import timedelta
-from .tasks import get_in_mail
 from allauth.account.decorators import verified_email_required
 
 # Create your views here.
@@ -79,7 +78,7 @@ def viewTransactions(request):
         'savings': savings
     })
 
-@verified_email_required
+
 def getExpenses(txn):
     # total amount debited = sum of debited only
     sum = 0
@@ -89,7 +88,7 @@ def getExpenses(txn):
 
     return sum
 
-@verified_email_required
+
 def getSavings(txn):
     # amount earned - amount spent
     sum1 = 0
