@@ -26,6 +26,12 @@ margin-top: 375px;
    {% endif %}
     </div>
 </div>
+<div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white;">
+  <div class = "card-body">
+    <p class="card-title"><h4>Connect to an Ethereum wallet <button class="enableEthereumButton">Enable Ethereum</button></h4></p>
+    <h4>Account: <span class="showAccount"></span></h4>
+    </div>
+</div>
 <script>
     google.charts.load('current',{packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -39,7 +45,6 @@ const data = google.visualization.arrayToDataTable([
   ['USA', 24],
   ['Argentina', 15]
 ]);
-
 const options = {
   title: 'Expenses v/s Category'
 };
