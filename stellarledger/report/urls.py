@@ -9,5 +9,5 @@ urlpatterns = [
     path('deleteCategory/<int:id>/', views.deleteCategory, name='deleteCategory'),
     path('updatecategory/<int:id>/', views.changeTransactionCategory, name='changecategory'),
     path('deleteTransaction/<int:id>/', views.deleteTransaction, name='deleteTransaction'),
-    # path('recurringbills/', views.recurringbills, name='recurring')
+    path('recurringbills/', views.recurringbills, name='recurring')
 ]

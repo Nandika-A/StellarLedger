@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recurring bills</title>
+</head>
+<body>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">User Role</th>
+                <th scope="col">To or From</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for t in txn %}
+        <tr>
+            <td>{{t.user_role}}</td>
+            <td>{{t.to_or_from}}</td>
+            <td>{{t.amount}}</td>
+            <td>{{t.timestamp}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

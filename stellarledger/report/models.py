@@ -20,8 +20,6 @@ class Transaction(models.Model):
     timestamp = models.DateField()
     category = models.CharField(max_length=20)
     recurring = models.CharField(blank = True, max_length=3, choices=PAID, default='Yes')
-    r_freq = models.IntegerField(default=0, blank=True)
-    r_period =models.CharField(max_length=10, blank=True)
 
     def __str__(self):
         return self.to_or_from

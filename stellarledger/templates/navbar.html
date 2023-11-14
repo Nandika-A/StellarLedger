@@ -1,11 +1,11 @@
 {% extends './base.html' %}
 {% block navbar %}
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #8860d0;">
-    <a class="navbar-brand" href="{% url 'home' %}">Stellar Ledger</a>
+    <a style="font-family: Sofia, sans-serif; font-size: 170%;" class="navbar-brand" href="{% url 'home' %}">Stellar Ledger</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown" style=" font-size: 120%; font-weight: bold;">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="{% url 'viewTransaction' %}">Reports</a>

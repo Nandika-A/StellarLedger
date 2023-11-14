@@ -16,12 +16,13 @@ app.conf.update(timezone='Asia/Kolkata')
 #   should have a `CELERY_` prefix.
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# app.conf.beat_schedule = {
-#     'send-mail-for-recurring-bills': {
-#         'task': 'report.tasks.recurring_bills',
-#         'schedule': crontab()
-#     }
-# }
+app.conf.beat_schedule = {
+    'send-mail-for-recurring-bills': {
+        'task': 'report.tasks.recurring_bills',
+        # 'schedule': crontab(day_of_week='sunday', minute=0, hour=9)
+        'schedule':crontab(hour=13, minute=12)
+    }
+}
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()

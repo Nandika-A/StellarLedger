@@ -120,6 +120,6 @@ def changeTransactionCategory(request, id):
 @verified_email_required
 def recurringbills(request):
     txn = Transaction.objects.filter(user=request.user, recurring='Yes', timestamp__gt=date.today())
-    return render(request, 'report/recurring.html', {
+    return render(request, 'report/reminder.html', {
         'txn': txn
     })  

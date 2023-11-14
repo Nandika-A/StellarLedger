@@ -4,7 +4,7 @@ from .models import Transaction, Category
 class RecordTransactionForm(ModelForm):
     class Meta:
         model = Transaction
-        fields = ['to_or_from','user_role', 'amount', 'timestamp', 'category', 'recurring', 'r_freq', 'r_period']
+        fields = ['to_or_from','user_role', 'amount', 'timestamp', 'category', 'recurring']
 
 class RecordCategoryForm(ModelForm):
     class Meta:
