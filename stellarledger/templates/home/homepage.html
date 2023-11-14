@@ -10,4 +10,43 @@ font-family: Sofia, sans-serif;
 font-weight: 900;
 margin-top: 375px;
 "><h1>Record Transactions and Split with friends</h1></div>
+<br>
+<br>
+<br>
+<br>
+<div class="card padding" style="width: 80%;">
+    <div class="card-body" style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
+    -webkit-text-fill-color: transparent; 
+    -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">
+   <p class="card-title"><h3> Keep Track of transactions with charts and graphs</h3></p>
+   {% if user.is_authenticated %}
+   <div id="myChart" style="max-width:700px; height:400px"></div>
+   {% else %}
+   Login To View
+   {% endif %}
+    </div>
+</div>
+<script>
+    google.charts.load('current',{packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+const data = google.visualization.arrayToDataTable([
+  ['Category', 'Expenses'],
+  ['Italy', 55],
+  ['France', 49],
+  ['Spain', 44],
+  ['USA', 24],
+  ['Argentina', 15]
+]);
+
+const options = {
+  title: 'Expenses v/s Category'
+};
+
+const chart = new google.visualization.BarChart(document.getElementById('myChart'));
+chart.draw(data, options);
+
+}
+</script>
 {% endblock %}
