@@ -2,6 +2,8 @@ let currentAccount = null;
 
 const ethereumButton = document.querySelector('.enableEthereumButton');
 const showAccount = document.querySelector('.showAccount');
+const getreceipt = document.querySelector('.getreceipt');
+const txnhash = document.querySelector('.txnhash').value;
 ethereumButton.addEventListener('click', () => {
     getAccount();
   });
@@ -54,4 +56,15 @@ function handleChainChanged(chainId) {
   window.location.reload();
 }
 
+getreceipt.addEventListener('click', () => {
+  getReceipt(txnhash);
+});
 
+async function getReceipt(txnhash){
+  receipt = await window.ethereum.request({
+    "method": "eth_getTransactionReceipt",
+    "params": [
+      txnhash
+    ]
+  });
+}

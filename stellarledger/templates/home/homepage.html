@@ -29,7 +29,13 @@ margin-top: 375px;
 <div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white;">
   <div class = "card-body">
     <p class="card-title"><h4>Connect to an Ethereum wallet <button class="enableEthereumButton">Enable Ethereum</button></h4></p>
-    <h4>Account: <span class="showAccount"></span></h4>
+    <h5>Account: <span class="showAccount"></span></h5>
+    <h4>Generate receipt from transaction hash</h4>
+    <form method="post">
+      {% csrf_token %}
+      <input type="text" name="txnhash" placeholder="Transaction hash" class="txnhash">
+      <button type="submit" name="submit" class="getreceipt">Get Receipt</button>
+    </form>
     </div>
 </div>
 <script>
