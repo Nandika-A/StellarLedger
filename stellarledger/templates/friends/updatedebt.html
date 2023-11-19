@@ -1,0 +1,11 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include '../navbar.html'%}
+<h2>Update group debt</h2>
+<form method="post" style="margin-top: 30px; margin-left: 30px;">
+    {% csrf_token %}
+    <input type="text" name="debt" placeholder="debt">
+    <input type="submit" value="submit">
+</form> 
+{% endblock %}

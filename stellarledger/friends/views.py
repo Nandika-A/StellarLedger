@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.core.mail import send_mail
 from decimal import Decimal
+from django.contrib import messages
 from allauth.account.decorators import verified_email_required
 # Create your views here.
 
@@ -125,14 +126,28 @@ def viewgroupmem(request, id):
 
 def resolvegroupdebt(request, id):
     g = Group.objects.get(id=id)
-    u = UserGroup.objects.filter(group=g, user=request.user)
+    u = UserGroup.objects.get(group=g, user=request.user)
+    members = UserGroup.objects.filter(group=g)
     u.paid = "YES"
     u.save()
-    for gr in u:
+    for gr in members:
         send_mail(
             'resolved debt',
-            request.user + " have resolved their debt for the group " + g.name,
+            request.user.username + " have resolved their debt for the group " + g.name,
             'stellarledger117@gmail.com',
             [gr.user.email]
         )
     return render(request, 'friends/resolve.html')
+
+def updatedebt(request, id):
+    if request.method == 'POST':
+        group=Group.objects.get(id=id)
+        debt = Decimal(float(request.POST.get('debt')))
+        if request.user != group.debt_paid_to:
+            messages.set_level(request, messages.DEBUG)
+            messages.error(request, "Only debtor can edit group debt")
+            return redirect('viewGroup')
+        group.debt = debt
+        group.save()
+        return redirect('viewGroup') 
+    return render(request, 'friends/updatedebt.html')
