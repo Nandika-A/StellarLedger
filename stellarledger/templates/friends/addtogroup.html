@@ -1,0 +1,14 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include '../navbar.html'%}
+<div class="padding">
+    <h2> <div style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
+        -webkit-text-fill-color: transparent; 
+        -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">Add member</div></h2>
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="username">
+    <input type="submit" value="Submit">
+</form>
+</div>
+{% endblock %}
