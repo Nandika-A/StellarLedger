@@ -9,4 +9,4 @@ class Friend(models.Model):
     debt = models.DecimalField(default=0.00, decimal_places=2, max_digits=10, blank=True)
     credit = models.DecimalField(default=0.00, decimal_places=2, max_digits=10, blank=True)
     date = models.DateField(default=date.today(), blank=True)
-    due_date = models.DateField(default=date.today(), blank=True)
+    due_date = models.DateField(null=True, blank=True)
