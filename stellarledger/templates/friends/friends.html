@@ -1,0 +1,26 @@
+{% extends '../base.html' %}
+{% block content %}
+{% include '../navbar.html' %}
+<br>
+<h2 style="text-align: center;">Your friends</h2>
+<ul class="list-group padding">
+    {% for f in friend %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{ f.friend_username }}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Debt = {{ f.debt }}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Credit = {{ f.credit }}
+        <span class="badge badge-primary badge-pill"><a href="{% url 'notify' f.friend_username %}" style="color:aliceblue">Notify</a></span>
+    <span class="badge badge-primary badge-pill"><a href="{% url 'adddebt' f.friend_username %}" style="color:aliceblue">Update Debt/Credit</a></span>
+    </li>
+    </li>
+    </li>
+    {% endfor %}
+</ul>
+<br>
+<br>
+<div class=" d-flex align-items-center justify-content-center">
+    <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important;"><a href="{% url 'addfriend' %}">Add new friends with username</a></button>
+</div>
+{% endblock %}

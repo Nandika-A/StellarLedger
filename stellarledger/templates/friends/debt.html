@@ -1,0 +1,23 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include '../navbar.html'%}
+<div class="padding">
+    <h2> <div style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
+        -webkit-text-fill-color: transparent; 
+        -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">Current debt = {{ friend.debt }}</div></h2>
+<h2> <div style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
+    -webkit-text-fill-color: transparent; 
+    -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">Current credited amount = {{ friend.credit }}</div></h2>
+    <h2> <div style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
+        -webkit-text-fill-color: transparent; 
+        -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">Last date of settlement = {{ friend.date }}</div></h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="debt" value=0 placeholder="debt">
+    <input type="text" name="credit" value=0 placeholder="credit">
+    <input type="date" name="due_date" value=0 placeholder="Due date">
+    <input type="submit" value="Submit">
+</form>
+</div>
+{% endblock %}
