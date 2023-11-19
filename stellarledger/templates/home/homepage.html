@@ -34,8 +34,9 @@ margin-top: 375px;
     <form method="post">
       {% csrf_token %}
       <input type="text" name="txnhash" placeholder="Transaction hash" class="txnhash">
-      <button type="submit" name="submit" class="getreceipt">Get Receipt</button>
+      <button type="submit" name="submit">Submit</button>
     </form>
+    <button name="getreceipt" class="getreceipt">Get Receipt</button>
     </div>
 </div>
 <script>
