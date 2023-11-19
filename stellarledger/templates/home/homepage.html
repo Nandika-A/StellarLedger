@@ -14,7 +14,7 @@ margin-top: 375px;
 <br>
 <br>
 <br>
-<div class="card padding" style="width: 80%;">
+<div id="graph" class="card padding" style="width: 80%;">
     <div class="card-body" style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
     -webkit-text-fill-color: transparent; 
     -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">
@@ -26,7 +26,7 @@ margin-top: 375px;
    {% endif %}
     </div>
 </div>
-<div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white;">
+<div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white; text-align: center;">
   <div class = "card-body">
     <p class="card-title"><h4>Connect to an Ethereum wallet <button class="enableEthereumButton">Enable Ethereum</button></h4></p>
     <h5>Account: <span class="showAccount"></span></h5>
@@ -42,21 +42,20 @@ margin-top: 375px;
     google.charts.load('current',{packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
+  const data = google.visualization.arrayToDataTable([
+    ['expenditure', 'Amount'],
+    ['Italy', 55],
+    ['France', 49],
+    ['Spain', 44],
+    ['USA', 24],
+    ['Argentina', 15]
+  ]);
+  const options = {
+    title: 'Expenses v/s Category'
+  };
 
-const data = google.visualization.arrayToDataTable([
-  ['Category', 'Expenses'],
-  ['Italy', 55],
-  ['France', 49],
-  ['Spain', 44],
-  ['USA', 24],
-  ['Argentina', 15]
-]);
-const options = {
-  title: 'Expenses v/s Category'
-};
-
-const chart = new google.visualization.BarChart(document.getElementById('myChart'));
-chart.draw(data, options);
+  const chart = new google.visualization.BarChart(document.getElementById('myChart'));
+  chart.draw(data, options);
 
 }
 </script>

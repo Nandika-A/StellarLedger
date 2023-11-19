@@ -1,5 +1,4 @@
 let currentAccount = null;
-
 const ethereumButton = document.querySelector('.enableEthereumButton');
 const showAccount = document.querySelector('.showAccount');
 const getreceipt = document.querySelector('.getreceipt');
@@ -61,10 +60,11 @@ getreceipt.addEventListener('click', () => {
 });
 
 async function getReceipt(txnhash){
-  receipt = await window.ethereum.request({
+  var receipt = await window.ethereum.request({
     "method": "eth_getTransactionReceipt",
     "params": [
       txnhash
     ]
   });
+  console.log(receipt);
 }
