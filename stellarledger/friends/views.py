@@ -123,9 +123,16 @@ def viewgroupmem(request, id):
         'u': u
     })
 
-# def resolvegroupdebt(request, id):
-#     g = Group.objects.get(id=id)
-#     u = UserGroup.objects.filter(group=g, user=request.user)
-#     u.paid = "YES"
-#     u.save()
-#     return render()
+def resolvegroupdebt(request, id):
+    g = Group.objects.get(id=id)
+    u = UserGroup.objects.filter(group=g, user=request.user)
+    u.paid = "YES"
+    u.save()
+    for gr in u:
+        send_mail(
+            'resolved debt',
+            request.user + " have resolved their debt for the group " + g.name,
+            'stellarledger117@gmail.com',
+            [gr.user.email]
+        )
+    return render(request, 'friends/resolve.html')

@@ -14,6 +14,7 @@
     Debt paid to = {{ gr.group.debt_paid_to }}
     {% endif %}
     <span class="badge badge-primary badge-pill"><a href="{% url 'viewGroupmem' gr.group.id %}" style="color:aliceblue">View members</a></span>
+    <span class="badge badge-primary badge-pill"><a href="{% url 'resolve' gr.group.id %}" style="color:aliceblue">Resolve your debt</a></span>
     <span class="badge badge-primary badge-pill"><a href="{% url 'addtogroup' gr.group.id %}" style="color:aliceblue">Add members</a></span>
 </li>
     </li>
