@@ -80,16 +80,19 @@ def notify(request, name):
         )
     return redirect('viewFriend')
 
-@verified_email_required
 def add_group(request):
     if request.method == 'POST':
         form = AddGroupForm(request.POST)
         if form.is_valid():
+            name = form.cleaned_data['name']
             f = form.save(commit=False)
             f.save()
+            group = Group.objects.get(name=name)
+            g = UserGroup.objects.create(user=request.user, group=group)
+            g.save()
             return redirect('viewGroup') 
     else:
-        form = AddFriendForm(request.POST)
+        form = AddGroupForm(request.POST)
     return render(request, 'friends/addgroup.html', {
         'form':form
     })

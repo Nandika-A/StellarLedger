@@ -2,19 +2,15 @@
 {% block content %}
 {% include '../navbar.html' %}
 <br>
-<h2 style="text-align: center;">{{ u.group.name }}</h2>
 <ul class="list-group padding">
-    {% for u in u%}
+    {% for g in u %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        {{u.user.username}}
-    <span class="badge badge-primary badge-pill">Paid = {{ u.paid }}</span>
+        {{g.user.username}}
+    <span class="badge badge-primary badge-pill">Paid = {{ g.paid }}</span>
     </li>
 
     {% endfor %}
 </ul>
 <br>
 <br>
-<div class=" d-flex align-items-center justify-content-center">
-    <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important;"><a href="{% url 'addtogroup' u.group.id %}">Add new member</a></button>
-</div>
 {% endblock %}

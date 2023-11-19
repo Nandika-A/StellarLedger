@@ -8,6 +8,6 @@ urlpatterns = [
     path('viewfriend/', views.view_friends, name='viewFriend'),
     path('viewgroup/', views.view_groups, name='viewGroup'),
     path('addgroup/', views.add_group, name='addgroup'),
-    path('addtogroup/', views.addtogroup, name='addtogroup'),
-    path('viewgroupmem/<int: id>/', views.viewgroupmem, name='viewGroupmem'),
+    path('addtogroup/<int:id>/', views.addtogroup, name='addtogroup'),
+    path('viewgroupmem/<int:id>/', views.viewgroupmem, name='viewGroupmem'),
 ]

@@ -39,6 +39,20 @@ margin-top: 375px;
     <button name="getreceipt" class="getreceipt">Get Receipt</button>
     </div>
 </div>
+<div class="card padding" style="width: 80%;">
+  <div class="card-body" style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
+  -webkit-text-fill-color: transparent; 
+  -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">
+ <p class="card-title"><h3> Simplify debts in groups</h3></p>
+ {% if user.is_authenticated %}
+ <div>
+  <button value="view groups"><a href="{% url 'viewGroup' %}" type="button">View Groups</a></button>
+ </div>
+ {% else %}
+ Login To View
+ {% endif %}
+  </div>
+</div>
 <script>
     google.charts.load('current',{packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);

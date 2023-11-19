@@ -23,4 +23,4 @@ class UserGroup(models.Model):
     ]
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    paid = models.CharField(max_length=2, choices=Ch, default='NO')
+    paid = models.CharField(max_length=3, choices=Ch, default='NO')

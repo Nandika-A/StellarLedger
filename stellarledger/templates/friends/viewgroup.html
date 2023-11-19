@@ -4,17 +4,18 @@
 <br>
 <h2 style="text-align: center;">Your groups</h2>
 <ul class="list-group padding">
-    {% for g in g %}
+    {% for gr in g %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
-    {{ g.group.name }}
-    {% if g.group.debt %}
+    {{ gr.group.name }}
+    {% if gr.group.debt %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
-    Debt amount = {{ g.group.debt }}
+    Debt amount = {{ gr.group.debt }}
     <li class="list-group-item d-flex justify-content-between align-items-center">
-    Debt paid to = {{ g.group.debt_paid_to }}
+    Debt paid to = {{ gr.group.debt_paid_to }}
     {% endif %}
-    <span class="badge badge-primary badge-pill"><a href="{% url 'viewGroupmem' g.group.id %}" style="color:aliceblue">View members</a></span>
-    </li>
+    <span class="badge badge-primary badge-pill"><a href="{% url 'viewGroupmem' gr.group.id %}" style="color:aliceblue">View members</a></span>
+    <span class="badge badge-primary badge-pill"><a href="{% url 'addtogroup' gr.group.id %}" style="color:aliceblue">Add members</a></span>
+</li>
     </li>
     </li>
 
