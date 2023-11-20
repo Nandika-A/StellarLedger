@@ -11,5 +11,6 @@ urlpatterns = [
     path('addtogroup/<int:id>/', views.addtogroup, name='addtogroup'),
     path('viewgroupmem/<int:id>/', views.viewgroupmem, name='viewGroupmem'),
     path('resolve/<int:id>/', views.resolvegroupdebt, name='resolve'),
-    path('updatedebt/<int:id>/', views.updatedebt, name='updatedebt')
+    path('updatedebt/<int:id>/', views.updatedebt, name='updatedebt'),
+    path('approve/<int:g_id>/<int:m_id>/', views.approve, name='approve')
 ]

@@ -31,7 +31,7 @@ margin-top: 375px;
     <p class="card-title"><h4>Connect to an Ethereum wallet <button class="enableEthereumButton">Enable Ethereum</button></h4></p>
     <h5>Account: <span class="showAccount"></span></h5>
     <h4>Generate receipt from transaction hash</h4>
-    <form method="post">
+    <form method="post" id="formid">
       {% csrf_token %}
       <input type="text" name="txnhash" placeholder="Transaction hash" class="txnhash">
       <button type="submit" name="submit">Submit</button>
@@ -45,25 +45,30 @@ margin-top: 375px;
   -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">
  <p class="card-title"><h3> Simplify debts in groups</h3></p>
  {% if user.is_authenticated %}
- <div>
-  <button value="view groups"><a href="{% url 'viewGroup' %}" type="button">View Groups</a></button>
+ <button style="background-color: transparent;">
+ <div style="color: black;">
+  <a href="{% url 'viewGroup' %}">View Groups</a>
  </div>
+ </button>
  {% else %}
  Login To View
  {% endif %}
   </div>
+</div>
+<div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white; text-align: center;">
+  <p class="card-title"><h3> Stellar Ledger</h3></p>
+  For any queries contact: stellarledger117@gmail.com
 </div>
 <script>
     google.charts.load('current',{packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
   const data = google.visualization.arrayToDataTable([
-    ['expenditure', 'Amount'],
-    ['Italy', 55],
-    ['France', 49],
-    ['Spain', 44],
-    ['USA', 24],
-    ['Argentina', 15]
+    ['Category', 'Amount'],
+    ['Bills', 55],
+    ['Food', 49],
+    ['Shopping', 44],
+    ['Gifts', 24],
   ]);
   const options = {
     title: 'Expenses v/s Category'
@@ -72,6 +77,12 @@ margin-top: 375px;
   const chart = new google.visualization.BarChart(document.getElementById('myChart'));
   chart.draw(data, options);
 
+  let form=document.getElementById("formid")
+
+  function submit_form(e){
+    e.preventDefault()
+  }
+  form.addEventListener('submit', submit_form)
 }
 </script>
 {% endblock %}

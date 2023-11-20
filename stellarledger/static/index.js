@@ -56,15 +56,20 @@ function handleChainChanged(chainId) {
 }
 
 getreceipt.addEventListener('click', () => {
+  console.log(txnhash)
+  console.log("hi")
   getReceipt(txnhash);
 });
 
 async function getReceipt(txnhash){
-  var receipt = await window.ethereum.request({
-    "method": "eth_getTransactionReceipt",
-    "params": [
-      txnhash
-    ]
-  });
-  console.log(receipt);
+  console.log("hi")
+  // console.log(txnhash)
+  // console.log(typeof(txnhash))
+  // var receipt = await window.ethereum.request({
+  //   "method": "eth_getTransactionReceipt",
+  //   "params": [
+  //     "0x6cb4c1b347d80a7d92522492a85c24447dae98a30d1900ed56677a17b2f3c477"
+  //   ]
+  // });
+  // console.log(receipt);
 }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve</title>
+</head>
+<body>
+    <h3>Kindly send your approval for the given settlement.</h3>
+    <h3>Group: {{ group }}</h3>
+    <h3>Member: {{ mem }}</h3>
+    <h3>Amount: {{ amount }}</h3>
+    <button type="submit"><a href="http://127.0.0.1:8000{% url 'approve' group.pk mem.id %}">Send your approval</a></button>
+</body>
+</html>
