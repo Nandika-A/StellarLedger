@@ -39,15 +39,15 @@ margin-top: 375px;
     <button name="getreceipt" class="getreceipt">Get Receipt</button>
     </div>
 </div>
-<div class="card padding" style="width: 80%;">
+<div id = "broadcast" class="card padding" style="width: 80%;">
   <div class="card-body" style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
   -webkit-text-fill-color: transparent; 
   -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">
- <p class="card-title"><h3> Simplify debts in groups</h3></p>
+ <p class="card-title"><h3> Split debts equally with friends and other users.</h3></p>
  {% if user.is_authenticated %}
  <button style="background-color: transparent;">
  <div style="color: black;">
-  <a href="{% url 'viewGroup' %}">View Groups</a>
+  <a href="{% url 'viewGroup' %}">View Broadcast lists</a>
  </div>
  </button>
  {% else %}

@@ -93,6 +93,8 @@ def add_group(request):
             f.save()
             group = Group.objects.get(name=name)
             g = UserGroup.objects.create(user=request.user, group=group)
+            group.debt_paid_to = request.user.username
+            group.save()
             g.save()
             return redirect('viewGroup') 
     else:
@@ -112,11 +114,16 @@ def view_groups(request):
 def addtogroup(request, id):
     if request.method == 'POST':
         group=Group.objects.get(id=id)
-        name = request.POST.get('name')
-        u = User.objects.get(username=name)
-        g = UserGroup.objects.create(user=u, group=group)
-        g.save()
-        return redirect('viewGroup') 
+        if request.user.username == group.debt_paid_to:
+            name = request.POST.get('name')
+            u = User.objects.get(username=name)
+            g = UserGroup.objects.create(user=u, group=group)
+            g.save()
+            return redirect('viewGroup') 
+        else:
+            messages.set_level(request, messages.DEBUG)
+            messages.error(request, "Only debtor can add members to their broadcast lists.")
+            return redirect('viewGroup')
     return render(request, 'friends/addtogroup.html')
 
 @verified_email_required
@@ -135,7 +142,7 @@ def resolvegroupdebt(request, id):
     html_content = render_to_string('email_template.html',{"group" : g.name, "mem" : request.user, "amount": g.debt}) # render with dynamic value
     text_content = strip_tags(html_content)
     msg = EmailMultiAlternatives(
-        request.user.username + " have settled their debt for the group " + g.name + ". Kindly approve or reject.",
+        request.user.username + " have settled their debt for the broadcast list " + g.name + ". Kindly approve or reject.",
         "stellarledger117@gmail.com",
         [debtor.email]
         )
@@ -161,25 +168,23 @@ def approve(request, g_id, m_id):
     group=Group.objects.get(id=g_id)
     user=User.objects.get(id=m_id)
     u = UserGroup.objects.get(group=group, user=user)
-    members = UserGroup.objects.filter(group=g) 
     if request.method == "POST":
         selected = request.POST.get('option')
         if selected == "approve":
             u.paid = "YES"
             u.save()
-            for gr in members:
-                send_mail(
-                    'resolved debt',
-                    user.username + " have resolved their debt for the group " + group.name,
-                    'stellarledger117@gmail.com',
-                    [gr.user.email]
-                )
+            send_mail(
+                'resolved debt',
+                user.username + " have resolved their debt for the broadcast list " + group.name,
+                'stellarledger117@gmail.com',
+                [request.user.email, user.email]
+            )
         else:
             send_mail(
                 'settlement rejected',
-                    request.user.username + " have rejected your debt settlement for the group " + group.name,
+                    request.user.username + " have rejected your debt settlement for the broadcast list " + group.name,
                         'stellarledger117@gmail.com',
-                        [gr.user.email]
+                        [request.user.email, user.email]
             )
         return redirect('home')
             
