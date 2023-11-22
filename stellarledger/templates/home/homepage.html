@@ -1,6 +1,9 @@
 {% extends '../base.html' %}
 {% block content %}
 {% include '../navbar.html' %}
+{% load static %}
+<script src="{% static 'index.js' %}" type="module" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <div style="
 text-align: center;
 background: linear-gradient(to right, #8860d0 , #5ab9ea);
@@ -33,10 +36,9 @@ margin-top: 375px;
     <h4>Generate receipt from transaction hash</h4>
     <form method="post" id="formid">
       {% csrf_token %}
-      <input type="text" name="txnhash" placeholder="Transaction hash" class="txnhash">
-      <button type="submit" name="submit">Submit</button>
+      <input type="text" name="txnhash" placeholder="Transaction hash" id="txnid">
+      <button type="submit" name="getreceipt" class="getreceipt">Get Receipt</button>
     </form>
-    <button name="getreceipt" class="getreceipt">Get Receipt</button>
     </div>
 </div>
 <div id = "broadcast" class="card padding" style="width: 80%;">

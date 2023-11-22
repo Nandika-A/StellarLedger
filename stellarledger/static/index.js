@@ -1,8 +1,8 @@
+import "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 let currentAccount = null;
 const ethereumButton = document.querySelector('.enableEthereumButton');
 const showAccount = document.querySelector('.showAccount');
 const getreceipt = document.querySelector('.getreceipt');
-const txnhash = document.querySelector('.txnhash').value;
 ethereumButton.addEventListener('click', () => {
     getAccount();
   });
@@ -55,21 +55,33 @@ function handleChainChanged(chainId) {
   window.location.reload();
 }
 
-getreceipt.addEventListener('click', () => {
-  console.log(txnhash)
-  console.log("hi")
-  getReceipt(txnhash);
+document.getElementById("formid").addEventListener('submit', (e) => {
+    e.preventDefault();
+    let txnhash = document.getElementById("txnid").value;
+    getReceipt(txnhash);
 });
 
 async function getReceipt(txnhash){
-  console.log("hi")
-  // console.log(txnhash)
-  // console.log(typeof(txnhash))
-  // var receipt = await window.ethereum.request({
-  //   "method": "eth_getTransactionReceipt",
-  //   "params": [
-  //     "0x6cb4c1b347d80a7d92522492a85c24447dae98a30d1900ed56677a17b2f3c477"
-  //   ]
-  // });
+  var receipt = await window.ethereum.request({
+    "method": "eth_getTransactionReceipt",
+    "params": [
+      txnhash
+    ]
+  });
   // console.log(receipt);
+  let r = JSON.stringify(receipt).replace(/,/g, "\n").replace(/{/g, "").replace(/"/g, "\u0020");
+  // console.log(r)
+  window.jsPDF = window.jspdf.jsPDF
+  const doc = new window.jsPDF({
+    unit: "mm",
+    orientation: "p",
+    lineHeight: 2.0
+  });
+  // doc.addFont("Arimo-Regular.ttf", "Arimo", "normal");
+  // doc.addFont("Arimo-Bold.ttf", "Arimo", "bold");
+  doc.setFont("Times-Roman");
+  // doc.setFontType("normal");
+  doc.setFontSize(12);
+  doc.text(r, 10, 10);
+  doc.save('Receipt.pdf');
 }
