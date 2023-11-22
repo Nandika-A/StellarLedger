@@ -6,13 +6,13 @@
     {% for gr in g %}
     <ul class="list-group padding">
     <li class="list-group-item d-flex justify-content-between align-items-center">
-    {{ gr.name }}
+    {{ gr.group.name }}
+    <button class="btn btn-sm" style="background-color: #c1c8e4 !important;"><a href = "{% url 'simplify_debt' gr.group.id %}">Simplify debt</a></button>
     <li class="list-group-item d-flex justify-content-between align-items-center">
-    {{ gr.description }}
-    <button><a href = "{% url 'simplify_debt' gr.id %}">Simplify debt</a></button>
-    <span class="badge badge-primary badge-pill"><a href="{% url 'addtogroup' gr.id %}" style="color:aliceblue">Add members</a></span>
-    <span class="badge badge-primary badge-pill"><a href="{% url 'group_txn' gr.id %}" style="color:aliceblue">Add transaction</a></span>
-    <span class="badge badge-primary badge-pill"><a href="{% url 'view_group_debts' gr.id %}" style="color:aliceblue">View Simplified debt</a></span>
+    {{ gr.group.description }}
+    <span class="badge badge-primary badge-pill"><a href="{% url 'add_expensegrp_members' gr.group.id %}" style="color:aliceblue">Add members</a></span>
+    <span class="badge badge-primary badge-pill"><a href="{% url 'group_txn' gr.group.id %}" style="color:aliceblue">Add transaction</a></span>
+    <span class="badge badge-primary badge-pill"><a href="{% url 'view_group_debts' gr.group.id %}" style="color:aliceblue">View Simplified debt</a></span>
 </li>
     </li>
     </li>
@@ -22,6 +22,6 @@
 <br>
 <br>
 <div class=" d-flex align-items-center justify-content-center">
-    <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important;"><a href="{% url 'addgroup' %}">Create new group</a></button>
+    <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important;"><a href="{% url 'create_expense_group' %}">Create new group</a></button>
 </div>
 {% endblock %}

@@ -203,8 +203,12 @@ def create_expense_group(request):
     if request.method == 'POST':
         form = AddExpenseGroupForm(request.POST)
         if form.is_valid():
+            name = form.cleaned_data['name']
             f = form.save(commit=False)
             f.save()
+            e = Expense_group.objects.get(name=name)
+            u = Expense_group_members.objects.create(group=e, member1=request.user)
+            u.save()
             return redirect('view_expense_groups') 
     else:
         form = AddExpenseGroupForm(request.POST)
@@ -224,7 +228,7 @@ def add_expensegrp_members(request, id):
         for m in members:
             if m.member1 == request.user:
                 not_found=False
-                break
+                
             if m.member1.username == name:
                 messages.set_level(request, messages.DEBUG)
                 messages.error(request, "Member already exists.")
@@ -249,7 +253,7 @@ def view_group_debts(request, id):
     pass
 
 def view_expense_groups(request):
-    g = Expense_group.objects.get(member1=request.user)
+    g = Expense_group_members.objects.filter(member1=request.user)
     return render(request, 'friends/view_expense_groups.html', {
         'g': g
     })
