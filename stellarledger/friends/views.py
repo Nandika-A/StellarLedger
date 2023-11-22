@@ -24,6 +24,12 @@ def add_friend(request):
         form = AddFriendForm(request.POST)
         if form.is_valid():
             friend = form.cleaned_data['friend_username']
+            objs = Friend.objects.filter(user=request.user)
+            for o in objs:
+                if o.friend_username == friend:
+                    messages.set_level(request, messages.DEBUG)
+                    messages.error(request, "One user can be added only once!")
+                    return redirect('addfriend')
             f = form.save(commit=False)
             f.user = request.user
             f.save()
@@ -68,6 +74,7 @@ def add_debt(request, name):
             "stellarledger117@gmail.com",
             [u.email, request.user.email]
         )
+        return redirect('viewFriend')
     return render(request, 'friends/debt.html', context = {
         "friend" : friend
         })
@@ -82,6 +89,8 @@ def notify(request, name):
             "stellarledger117@gmail.com",
             [u.email]
         )
+    messages.set_level(request, messages.DEBUG)
+    messages.error(request, "mail sent!")
     return redirect('viewFriend')
 
 def add_group(request):
@@ -189,3 +198,4 @@ def approve(request, g_id, m_id):
         return redirect('home')
             
     return render(request, 'home/approve.html')
+

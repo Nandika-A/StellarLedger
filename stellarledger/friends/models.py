@@ -27,7 +27,7 @@ class UserGroup(models.Model):
 
 class PairExpenses(models.Model):
     group_name = models.CharField(max_length=10, unique=True)
-    member1 = models.CharField(max_length=10)
+    member1 = models.ForeignKey(User, on_delete=models.CASCADE)
     member2 = models.CharField(max_length=10)
     pay1to2 = models.DecimalField(default=0.00, decimal_places=2, max_digits=10, blank=True)
     title = models.CharField(max_length=10)
