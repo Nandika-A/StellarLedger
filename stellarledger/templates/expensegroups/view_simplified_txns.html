@@ -1,0 +1,30 @@
+{% extends '../base.html' %}
+{% block content %}
+{% include '../navbar.html' %}
+<br>
+<br>
+<div class="card text-center">
+    <div class="text-center padding">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">Debtor</th>
+                <th scope="col">Creditor</th>
+                <th scope="col">Amount</th>
+              </tr>
+        </thead>
+        <tbody>
+        {% for t in transactions %}
+            <tr>
+            <td>{{t.debtor.user.username}}</td>
+            <td>{{t.creditor.user.username}}</td>
+            <td>{{t.amount}}</td>
+            </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+</div>
+</div>
+<br>
+
+{% endblock %}

@@ -4,18 +4,15 @@ from collections import defaultdict
 from heapq import heappush, heappop
 
 class ExpenseGroup(models.Model):
-    name = models.CharField(max_length=10, unique=True)
+    name = models.CharField(max_length=10, unique=True, default="GroupX")
     description = models.TextField(blank=True, null=True)
 
 class ExpenseGroupMember(models.Model):
     group = models.ForeignKey(ExpenseGroup, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-class ExpenseGraph(models.Model):
-    group = models.OneToOneField(ExpenseGroup, on_delete=models.CASCADE)
-
 class Edge(models.Model):
-    graph = models.ForeignKey(ExpenseGraph, on_delete=models.CASCADE)
+    group = models.ForeignKey(ExpenseGroup, on_delete=models.CASCADE, default=1)
     debtor = models.ForeignKey(ExpenseGroupMember, related_name='debtor', on_delete=models.CASCADE)
     creditor = models.ForeignKey(ExpenseGroupMember, related_name='creditor', on_delete=models.CASCADE)
     amount = models.DecimalField(default=0.00, decimal_places=2, max_digits=10, blank=True)
@@ -27,61 +24,78 @@ class ExpenseGraphSolver:
         self.members = list(group.expensegroupmember_set.all())
         self.edges = defaultdict(list)
         self.transactions = []
+        self.N = len(self.members)
+        self.member_id_to_index = {}
+        self.index_to_member_id = {}
 
-    def add_edge(self, debtor, creditor, amount, title):
-        self.edges[debtor].append({'creditor': creditor, 'amount': amount, 'title': title})
+    def set_member_id(self):
+        a = 0
+        for m in self.members:
+            self.member_id_to_index[m.id] = a
+            self.index_to_member_id[a] = m.id
+            a += 1
+
+    def add_edge(self, debtor, creditor, amount):
+        self.edges[debtor].append([creditor, amount])
 
     def create_edges(self):
         for edge in self.group.edge_set.all():
             debtor = edge.debtor
             creditor = edge.creditor
             amount = edge.amount
-            title = edge.title
-            self.add_edge(debtor, creditor, amount, title)
+            self.add_edge(debtor, creditor, amount) # adjacency list edges[u] = [creditor, amount]
 
-    def minimize_cash_flow(self):
-        debtors = self.members.copy()
-        creditors = self.members.copy()
-        debts = []
+        graph = [[0]*self.N]*self.N
+        self.set_member_id()
+        for edge in self.group.edge_set.all():
+            graph[self.member_id_to_index[edge.debtor.id]][self.member_id_to_index[edge.creditor.id]] += edge.amount
+        self.minimize_cash_flow(graph) 
+
+    def getMin(self,arr):
+        minInd = 0
+        for i in range(1, self.N):
+            if (arr[i] < arr[minInd]):
+                minInd = i
+        return minInd
+    
+    def getMax(self,arr):
+        maxInd = 0
+        for i in range(1, self.N):
+            if (arr[i] > arr[maxInd]):
+                maxInd = i
+        return maxInd
+    
+    def minCashFlowRec(self, amount):
+        mxCredit = self.getMax(amount)
+        mxDebit = self.getMin(amount)
+        if (amount[mxCredit] == 0 and amount[mxDebit] == 0):
+            return 0
+        if -amount[mxDebit] < amount[mxCredit]:
+            min = -amount[mxDebit]
+        else:
+            min = amount[mxCredit]
+        amount[mxCredit] -=min
+        amount[mxDebit] += min
+
+        print("Person " , mxDebit , " pays " , min
+            , " to " , "Person " , mxCredit)
         
-        for debtor in debtors:
-            for creditor_info in self.edges[debtor]:
-                creditor = creditor_info['creditor']
-                amount = creditor_info['amount']
-                title = creditor_info['title']
-                debts.append((debtor, creditor, amount, title))
-
-        debts.sort(key=lambda x: x[2])
-        debtor_heap = []
-        creditor_heap = []
-        
-        for debtor, creditor, amount, title in debts:
-            if amount > 0:
-                heappush(debtor_heap, (amount, debtor, creditor, title))
-            else:
-                heappush(creditor_heap, (-amount, creditor, debtor, title))
-
-        while debtor_heap and creditor_heap:
-            amount, debtor, creditor, title = heappop(debtor_heap)
-            amount_c, creditor_c, debtor_c, title_c = heappop(creditor_heap)
-
-            min_amount = min(amount, amount_c)
-
-            amount -= min_amount
-            amount_c += min_amount
-
-            self.transactions.append({
-                'debtor_username': debtor.user.username,
-                'creditor_username': creditor.user.username,
-                'amount': min_amount,
-                'title': title
+        self.transactions.append({
+            'debtor' : self.index_to_member_id[mxDebit],
+            'creditor': self.index_to_member_id[mxCredit],
+            'amount': min
             })
 
-            if amount > 0:
-                heappush(debtor_heap, (amount, debtor, creditor, title))
+        self.minCashFlowRec(amount)
 
-            if amount_c > 0:
-                heappush(creditor_heap, (-amount_c, creditor, debtor, title_c))
-    
+    def minimize_cash_flow(self, graph):
+        amount = [0 for i in range(self.N)]
+        for p in range(self.N):
+            for i in range(self.N):
+                amount[p] += (graph[i][p] - graph[p][i])
+ 
+        self.minCashFlowRec(amount)
+
+
     def get_transactions(self):
         return self.transactions

@@ -8,5 +8,4 @@ urlpatterns = [
     path('add_txn/<int:id>/', views.add_txn, name='add_txn'),
     path('view_all_transactions/<int:id>/', views.view_all_transactions, name='view_all_transactions'),
     path('view_simplified_txns/<int:id>/', views.view_simplified_txns, name='view_simplified_txns'),
-    path('edit_txn/<int:id>', views.edit_txn, name='edit_txn'),
 ]

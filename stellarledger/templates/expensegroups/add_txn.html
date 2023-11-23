@@ -1,0 +1,24 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% include '../navbar.html'%}
+<div class="padding">
+    <h2> <div style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
+        -webkit-text-fill-color: transparent; 
+        -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">Add transaction</div></h2>
+    <form method="post">
+    {% csrf_token %}
+    <div class="form-group mx-sm-3 mb-2">
+        <select name="role" class="sel-front">
+            <option value="" disabled>Select Your role</option>
+            <option value="debtor">Debtor</option>
+            <option value="creditor">creditor</option>
+          </select>
+    </div>
+    Debtor/Creditor: <input type="text" name="name">
+    Amount: <input type="text" name="amount">
+    Paid for: <input type="text" name="title">
+    <input type="submit" value="Submit">
+</form>
+</div>
+{% endblock %}
