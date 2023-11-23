@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Friend, Group, UserGroup, Expense_group, PairExpenses, Expense_group_members
-from .forms import AddFriendForm, AddGroupForm, AddExpenseGroupForm
+from .models import Friend, Group, UserGroup
+from .forms import AddFriendForm, AddGroupForm
 from django.contrib.auth.models import User
 from datetime import date
 from django.core.mail import send_mail
@@ -198,62 +198,3 @@ def approve(request, g_id, m_id):
         return redirect('home')
             
     return render(request, 'home/approve.html')
-
-def create_expense_group(request):
-    if request.method == 'POST':
-        form = AddExpenseGroupForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            f = form.save(commit=False)
-            f.save()
-            e = Expense_group.objects.get(name=name)
-            u = Expense_group_members.objects.create(group=e, member1=request.user)
-            u.save()
-            return redirect('view_expense_groups') 
-    else:
-        form = AddExpenseGroupForm(request.POST)
-    return render(request, 'friends/addgroup.html', {
-        'form':form
-    })
-
-def add_expensegrp_members(request, id):
-    if request.method == 'POST':
-
-        name = request.POST.get('name')
-        group=Expense_group.objects.get(id=id)
-        members = Expense_group_members.objects.filter(group=group)
-
-        not_found=True
-
-        for m in members:
-            if m.member1 == request.user:
-                not_found=False
-                
-            if m.member1.username == name:
-                messages.set_level(request, messages.DEBUG)
-                messages.error(request, "Member already exists.")
-                return redirect('view_expense_groups')
-            
-        if not_found:
-            return redirect('view_expense_groups')
-        
-        u = User.objects.get(username=name)
-        g = Expense_group_members.objects.create(member1=u, group=group)
-        g.save()
-        return redirect('view_expense_groups') 
-    return render(request, 'friends/addtogroup.html')
-
-def group_txn(request, id):
-    pass
-
-def simplify_debt(request, id):
-    pass
-
-def view_group_debts(request, id):
-    pass
-
-def view_expense_groups(request):
-    g = Expense_group_members.objects.filter(member1=request.user)
-    return render(request, 'friends/view_expense_groups.html', {
-        'g': g
-    })

@@ -10,8 +10,3 @@ class AddGroupForm(ModelForm):
     class Meta:
         model = Group
         fields = ['name']
-
-class AddExpenseGroupForm(ModelForm):
-    class Meta:
-        model = Expense_group
-        fields = ['name', 'description']
