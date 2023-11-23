@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django_filters',
     'crispy_bootstrap4',
     'django_celery_results',
-    'django_celery_beat'
+    'django_celery_beat',
+    'expensegroups',
 ]
 
 MIDDLEWARE = [
