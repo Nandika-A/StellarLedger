@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Friend, Group, Expense_group
+from .models import Friend, Group
 
 class AddFriendForm(ModelForm):
     class Meta:

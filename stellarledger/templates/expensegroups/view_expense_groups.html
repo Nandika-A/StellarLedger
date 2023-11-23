@@ -1,0 +1,27 @@
+{% extends '../base.html' %}
+{% block content %}
+{% include '../navbar.html' %}
+<br>
+<h2 style="text-align: center;">Your Expense Groups</h2>
+<ul class="list-group padding">
+    {% for gr in g %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ gr.group.name }}
+
+        <span class="badge badge-primary badge-pill"><a href="{% url 'add_members' gr.group.id %}" style="color:aliceblue;">Add members</a></span>
+        <span class="badge badge-primary badge-pill"><a href="{% url 'add_txn' gr.group.id %}" style="color:aliceblue;">Add Transaction</a></span>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ gr.group.description }}
+   
+    <span class="badge badge-primary badge-pill"><a href="{% url 'view_all_transactions' gr.group.id %}" style="color:aliceblue;">View all transactions</a></span>
+    <span class="badge badge-primary badge-pill"><a href="{% url 'view_simplified_txns' gr.group.id %}" style="color:aliceblue;">View simplified transactions</a></span>
+    </li>
+    </li>
+</ul>
+    {% endfor %}
+<br>
+<br>
+<div class=" d-flex align-items-center justify-content-center">
+    <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important;"><a href="{% url 'add_expense_group' %}">Create new group</a></button>
+</div>
+{% endblock %}
