@@ -2,7 +2,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 let currentAccount = null;
 const ethereumButton = document.querySelector('.enableEthereumButton');
 const showAccount = document.querySelector('.showAccount');
-const getreceipt = document.querySelector('.getreceipt');
+const payhash = document.querySelector('.payhash');
 ethereumButton.addEventListener('click', () => {
     getAccount();
   });
@@ -85,3 +85,29 @@ async function getReceipt(txnhash){
   doc.text(r, 10, 10);
   doc.save('Receipt.pdf');
 }
+
+document.getElementById("payeth").addEventListener('submit', (e) => {
+  e.preventDefault();
+  let recipient_add = document.getElementById("recipient").value;
+  let value_in_wei = document.getElementById("value_in_wei").value;
+  payeth(recipient_add, value_in_wei);
+});
+
+async function payeth(recipient_add, value_in_wei){
+  var new_hash = await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      // The following sends an EIP-1559 transaction. Legacy transactions are also supported.
+      params: [
+        {
+          from: currentAccount, // The user's active address.
+          to: recipient_add,
+          value: value_in_wei,
+          gasLimit: '0x5028', // Customizable by the user during MetaMask confirmation.
+          maxPriorityFeePerGas: '0x3b9aca00', // Customizable by the user during MetaMask confirmation.
+          maxFeePerGas: '0x2540be400', // Customizable by the user during MetaMask confirmation.
+        },
+      ],
+    })
+    console.log(payhash)
+    payhash.innerHTML = new_hash;
+  }

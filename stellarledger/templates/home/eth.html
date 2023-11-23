@@ -1,0 +1,24 @@
+{% extends '../base.html' %}
+{% block content %}
+{% load static %}
+<script src="{% static 'index.js' %}" type="module" ></script>
+<div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white; text-align: center;">
+    <div class = "card-body">
+        <p class="card-title"><h4>Connect to an Ethereum wallet <button class="enableEthereumButton">Enable Ethereum</button></h4></p>
+        <h5>Account: <span class="showAccount"></span></h5>
+      <h4>Generate receipt from transaction hash</h4>
+      <form method="post" id="formid">
+        {% csrf_token %}
+        <input type="text" name="txnhash" placeholder="Transaction hash" id="txnid">
+        <button type="submit" name="getreceipt" class="getreceipt">Get Receipt</button>
+      </form>
+      <form method="post" id="payeth">
+        {% csrf_token %}
+        <input type="text" placeholder="Recipient's account address" id="recipient">
+        <input type="number" placeholder="Amount in Wei" id="value_in_wei">
+        <button type="submit" class="getreceipt">Pay to friend</button>
+      </form>
+      <h5>Transaction hash: <span class="payhash"></span></h5>
+      </div>
+  </div>
+{% endblock %}

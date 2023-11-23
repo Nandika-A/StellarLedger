@@ -1,6 +1,6 @@
 {% extends '../base.html' %}
 {% block content %}
-{% include '../navbar.html' %}
+
 {% load static %}
 <script src="{% static 'index.js' %}" type="module" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -29,18 +29,7 @@ margin-top: 375px;
    {% endif %}
     </div>
 </div>
-<div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white; text-align: center;">
-  <div class = "card-body">
-    <p class="card-title"><h4>Connect to an Ethereum wallet <button class="enableEthereumButton">Enable Ethereum</button></h4></p>
-    <h5>Account: <span class="showAccount"></span></h5>
-    <h4>Generate receipt from transaction hash</h4>
-    <form method="post" id="formid">
-      {% csrf_token %}
-      <input type="text" name="txnhash" placeholder="Transaction hash" id="txnid">
-      <button type="submit" name="getreceipt" class="getreceipt">Get Receipt</button>
-    </form>
-    </div>
-</div>
+
 <div id = "broadcast" class="card padding" style="width: 80%;">
   <div class="card-body" style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
   -webkit-text-fill-color: transparent; 

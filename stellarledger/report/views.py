@@ -123,3 +123,6 @@ def recurringbills(request):
     return render(request, 'report/reminder.html', {
         'txn': txn
     })  
+
+def trackethereum(request):
+    return render(request, 'home/eth.html')
