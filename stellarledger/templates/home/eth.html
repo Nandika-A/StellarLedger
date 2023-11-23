@@ -1,24 +1,176 @@
 {% extends '../base.html' %}
 {% block content %}
 {% load static %}
-<script src="{% static 'index.js' %}" type="module" ></script>
-<div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white; text-align: center;">
-    <div class = "card-body">
-        <p class="card-title"><h4>Connect to an Ethereum wallet <button class="enableEthereumButton">Enable Ethereum</button></h4></p>
-        <h5>Account: <span class="showAccount"></span></h5>
-      <h4>Generate receipt from transaction hash</h4>
-      <form method="post" id="formid">
-        {% csrf_token %}
-        <input type="text" name="txnhash" placeholder="Transaction hash" id="txnid">
-        <button type="submit" name="getreceipt" class="getreceipt">Get Receipt</button>
-      </form>
-      <form method="post" id="payeth">
-        {% csrf_token %}
-        <input type="text" placeholder="Recipient's account address" id="recipient">
-        <input type="number" placeholder="Amount in Wei" id="value_in_wei">
-        <button type="submit" class="getreceipt">Pay to friend</button>
-      </form>
-      <h5>Transaction hash: <span class="payhash"></span></h5>
-      </div>
-  </div>
+<script src="{% static 'index.js' %}" type="module"></script>
+
+<style>
+    .page-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(to right, #f8f9fa, #e9ecef); /* Updated background gradient */
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .card {
+        flex: 1;
+        background: linear-gradient(to right, #b49eec, #86a8e7);
+        color: white;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 0.5rem;
+        height: 85vh;
+        width: 30%;
+    }
+
+    .card-body {
+        padding: 2rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .enableEthereumButton {
+        background-color: #8860d0;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .enableEthereumButton:hover {
+        background-color: #8860d0;
+        color: #5ab9ea;
+    }
+
+    form {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .getreceipt,
+    .payeth {
+        background-color: #8860d0;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .getreceipt:hover,
+    .payeth:hover {
+      background-color: #8860d0;
+        color: #5ab9ea;
+    }
+
+    h4,
+    h5,
+    p {
+        margin-bottom: 10px;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Animation Styles */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(-50%);
+        }
+
+        to {
+            transform: translateX(0);
+        }
+    }
+
+    .fadeIn {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .slideIn {
+        animation: slideIn 0.8s ease-out;
+    }
+</style>
+
+<div class="page-container">
+    <div class="container">
+        <!-- Ethereum Connection -->
+        <div class="card fadeIn slideIn">
+            <div class="card-body">
+                <h4>Connect to your Ethereum Wallet</h4>
+                <p>Experience the power of decentralized finance. Connect your wallet securely.</p>
+                <button class="enableEthereumButton">Enable Ethereum</button>
+                <p>Account: <span class="showAccount"></span></p>
+            </div>
+        </div>
+
+        <!-- Transaction Receipt Generation -->
+        <div class="card fadeIn slideIn">
+            <div class="card-body">
+                <h4>Generate Receipt</h4>
+                <p>Enter the transaction hash to generate a detailed receipt for your records.</p>
+                <form method="post" id="formid">
+                    {% csrf_token %}
+                    <input type="text" name="txnhash" placeholder="Transaction hash" id="txnid">
+                    <button type="submit" name="getreceipt" class="getreceipt">Get Receipt</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Ethereum Payment -->
+        <div class="card fadeIn slideIn">
+            <div class="card-body">
+                <h4>Pay to Friend</h4>
+                <p>Initiate secure transactions to your friends with Ethereum. Easy and hassle-free payments.</p>
+                <form method="post" id="payeth">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Recipient's account address" id="recipient">
+                    <input type="number" placeholder="Amount in Wei" id="value_in_wei">
+                    <button type="submit" class="payeth">Pay to Friend</button>
+                </form>
+                <p>Transaction hash: <span class="payhash"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

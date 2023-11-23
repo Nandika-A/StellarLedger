@@ -79,7 +79,7 @@ async function getReceipt(txnhash){
   });
   // doc.addFont("Arimo-Regular.ttf", "Arimo", "normal");
   // doc.addFont("Arimo-Bold.ttf", "Arimo", "bold");
-  doc.setFont("Times-Roman");
+  // doc.setFont("Times-Roman");
   // doc.setFontType("normal");
   doc.setFontSize(12);
   doc.text(r, 10, 10);
