@@ -34,11 +34,6 @@
 
     /* Card Styling */
     .card-body {
-      text-align: center;
-      background: linear-gradient(to right,#8860d0, #5ab9ea);
-      -webkit-text-fill-color: transparent; 
-      -webkit-background-clip: text; 
-      font-family: Sofia, sans-serif; 
       font-weight: 900;
         font-family: 'Times New Roman', Times, serif;
         border-radius: 10px;
@@ -46,12 +41,6 @@
     }
 
     .card-title {
-        text-align: center;
-      background: linear-gradient(to right,#8860d0, #5ab9ea);
-      -webkit-text-fill-color: transparent; 
-      -webkit-background-clip: text; 
-      font-family: Sofia, sans-serif; 
-      font-weight: 900;
         font-family: 'Times New Roman', Times, serif;
         border-radius: 10px;
         padding: 20px;
@@ -77,7 +66,10 @@
         border-radius: 10px;
         margin: 10px auto;
     }
-    
+    #links{
+        width: 50%;
+        margin-right: 20px;
+    }
 </style>
 
 <div style="
@@ -123,26 +115,26 @@ margin-top: 375px;
 </div>
 
 <h1 style="color: #8860d0; font-weight: bold; font-family: Georgia, 'Times New Roman', Times, serif;">Split bills with friends and in groups</h1>
-<div class="split-card-container">
+<div class="split-card-container card-size">
 <div id="links" class="card fadeInAnimation split-card">
-    <div class="card-body">
-        <h4>Broadcasts</h4>
-        <p>Split the bills equally with multiple users.</p>
-        <button class="btn btn-outline-primary" style="color: white;"><a href="">View Broadcasts</a></button>
+    <div class="card-body" style="background: linear-gradient(to right,#c4a8f7, #b6e0f6);">
+        <h4  style="color:#ffffff;">Broadcasts</h4>
+        <p>Split the bills equally with multiple users, without letting them know about other users added.</p>
+        <button style="color: white;"><a href="{% url 'viewGroup' %}">View Broadcasts</a></button>
     </div>
 </div>
 <div id="links" class="card fadeInAnimation split-card">
-    <div class="card-body">
-        <h4>Groups</h4>
-        <p></p>
-        <button class="btn btn-outline-primary" style="color: white;"><a href="">View Groups</a></button>
+    <div class="card-body" style="background: linear-gradient(to right,#c4a8f7, #b6e0f6);">
+        <h4 style="color:#ffffff;">Groups</h4>
+        <p>Add transactions between the group members and get the simplified debts.</p>
+        <button style="color: white;"><a href="{% url 'view_expense_groups' %}">View Groups</a></button>
     </div>
 </div>
 <div id="links" class="card fadeInAnimation split-card">
-    <div class="card-body">
-        <h4>Friends</h4>
-        <p></p>
-        <button class="btn btn-outline-primary" style="color: white;"><a href="">View Friends</a></button>
+    <div class="card-body" style="background: linear-gradient(to right,#c4a8f7, #b6e0f6);">
+        <h4 style="color:#ffffff;">Friends</h4>
+        <p>Record your debts with friends and send notifications to repay.</p>
+        <button style="color: white;"><a href="{% url 'viewFriend' %}">View Friends</a></button>
     </div>
 </div>
 </div>
