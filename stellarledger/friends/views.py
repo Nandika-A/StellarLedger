@@ -148,9 +148,10 @@ def resolvegroupdebt(request, id):
     u = UserGroup.objects.get(group=g, user=request.user)
     debtor = User.objects.get(username=g.debt_paid_to)
 
-    html_content = render_to_string('email_template.html',{"group" : g.name, "mem" : request.user, "amount": g.debt}) # render with dynamic value
+    html_content = render_to_string('email_template.html',{"group" : g.name, "mem" : request.user, "amount": g.debt, 'urlpk': u.id})
     text_content = strip_tags(html_content)
     msg = EmailMultiAlternatives(
+        'Debt settlement',
         request.user.username + " have settled their debt for the broadcast list " + g.name + ". Kindly approve or reject.",
         "stellarledger117@gmail.com",
         [debtor.email]
@@ -173,10 +174,8 @@ def updatedebt(request, id):
         return redirect('viewGroup') 
     return render(request, 'friends/updatedebt.html')
 
-def approve(request, g_id, m_id):
-    group=Group.objects.get(id=g_id)
-    user=User.objects.get(id=m_id)
-    u = UserGroup.objects.get(group=group, user=user)
+def approve(request, pk):
+    u = UserGroup.objects.get(id=pk)
     if request.method == "POST":
         selected = request.POST.get('option')
         if selected == "approve":
@@ -184,16 +183,16 @@ def approve(request, g_id, m_id):
             u.save()
             send_mail(
                 'resolved debt',
-                user.username + " have resolved their debt for the broadcast list " + group.name,
+                u.user.username + " have resolved their debt for the broadcast list " + u.group.name,
                 'stellarledger117@gmail.com',
-                [request.user.email, user.email]
+                [request.user.email, u.user.email]
             )
         else:
             send_mail(
                 'settlement rejected',
-                    request.user.username + " have rejected your debt settlement for the broadcast list " + group.name,
+                    request.user.username + " have rejected your debt settlement for the broadcast list " + u.group.name,
                         'stellarledger117@gmail.com',
-                        [request.user.email, user.email]
+                        [request.user.email, u.user.email]
             )
         return redirect('home')
             

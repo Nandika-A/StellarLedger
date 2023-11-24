@@ -35,17 +35,9 @@ class ExpenseGraphSolver:
             self.index_to_member_id[a] = m.id
             a += 1
 
-    def add_edge(self, debtor, creditor, amount):
-        self.edges[debtor].append([creditor, amount])
 
     def create_edges(self):
-        for edge in self.group.edge_set.all():
-            debtor = edge.debtor
-            creditor = edge.creditor
-            amount = edge.amount
-            self.add_edge(debtor, creditor, amount) # adjacency list edges[u] = [creditor, amount]
-
-        graph = [[0]*self.N]*self.N
+        graph = [[0 for i in range(self.N)] for j in range(self.N)]
         self.set_member_id()
         for edge in self.group.edge_set.all():
             graph[self.member_id_to_index[edge.debtor.id]][self.member_id_to_index[edge.creditor.id]] += edge.amount
@@ -76,9 +68,6 @@ class ExpenseGraphSolver:
             min = amount[mxCredit]
         amount[mxCredit] -=min
         amount[mxDebit] += min
-
-        print("Person " , mxDebit , " pays " , min
-            , " to " , "Person " , mxCredit)
         
         self.transactions.append({
             'debtor' : self.index_to_member_id[mxDebit],
@@ -93,7 +82,8 @@ class ExpenseGraphSolver:
         for p in range(self.N):
             for i in range(self.N):
                 amount[p] += (graph[i][p] - graph[p][i])
- 
+                # print(f'{p}, {i}, {graph[p][i]}')
+            # print(amount[p])
         self.minCashFlowRec(amount)
 
 

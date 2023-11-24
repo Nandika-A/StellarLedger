@@ -10,6 +10,6 @@
     <h3>Broadcast: {{ group }}</h3>
     <h3>Member: {{ mem }}</h3>
     <h3>Amount: {{ amount }}</h3>
-    <button type="submit"><a href="http://127.0.0.1:8000{% url 'approve' group.pk mem.id %}">Send your approval</a></button>
+    <button type="submit"><a href="{% url 'approve' urlpk %}">Send your approval</a></button>
 </body>
 </html>

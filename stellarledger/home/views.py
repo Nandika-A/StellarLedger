@@ -6,19 +6,22 @@ from report.views import getExpenses, getSavings
 def homepage(request): 
     total_expenses = []
     savings = []
-    cat = Category.objects.filter(user=request.user)
-    for c in cat:
-        txn = Transaction.objects.filter(user=request.user, category=c.category)
-        e=getExpenses(txn)
-        s=getSavings(txn)
-        if s < 0:
-            s = 0 
+    cat = {}
+    if request.user.is_authenticated:
+        cat = Category.objects.filter(user=request.user)
+        for c in cat:
+            txn = Transaction.objects.filter(user=request.user, category=c.category)
+            e=getExpenses(txn)
+            s=getSavings(txn)
+            if s < 0:
+                s = 0 
 
-        total_expenses.append(e)
-        savings.append(s)
-         
+            total_expenses.append(e)
+            savings.append(s)
+            
     return render(request, 'home/homepage.html',{
         'expenses': total_expenses,
         'cat': cat,
         'savings': savings
     })
+    

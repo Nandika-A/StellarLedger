@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recurring bills</title>
-</head>
-<body>
-    <table class="table table-sm">
+{% extends '../base.html' %}
+{% block content %}
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col">User Role</th>
@@ -18,13 +12,12 @@
         <tbody>
         {% for t in txn %}
         <tr>
-            <td>{{t.user_role}}</td>
-            <td>{{t.to_or_from}}</td>
-            <td>{{t.amount}}</td>
-            <td>{{t.timestamp}}</td>
+            <td>{{ t.user_role }}</td>
+            <td>{{ t.to_or_from }}</td>
+            <td>{{ t.amount }}</td>
+            <td>{{ t.timestamp }}</td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}
