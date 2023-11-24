@@ -4,12 +4,11 @@
 {% load static %}
 <script src="{% static 'index.js' %}" type="module" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
     /* Common Styles for Cards */
     .card {
         transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-        width: 100%; /* Adjusted width to cover the whole screen */
-        max-width: 100%;
     }
 
     .card:hover {
@@ -47,6 +46,15 @@
     }
 
     .card-title {
+        text-align: center;
+      background: linear-gradient(to right,#8860d0, #5ab9ea);
+      -webkit-text-fill-color: transparent; 
+      -webkit-background-clip: text; 
+      font-family: Sofia, sans-serif; 
+      font-weight: 900;
+        font-family: 'Times New Roman', Times, serif;
+        border-radius: 10px;
+        padding: 20px;
         font-size: 24px;
         font-weight: bold;
         margin-bottom: 10px;
@@ -65,10 +73,11 @@
 
     /* Individual Split Cards */
     .split-card {
-        width: 48%; /* Adjusted width to allow for some spacing */
+        width: 48%;
         border-radius: 10px;
-        margin: 10px 0;
+        margin: 10px auto;
     }
+    
 </style>
 
 <div style="
@@ -80,86 +89,110 @@ font-family: Sofia, sans-serif;
 font-weight: 900;
 margin-top: 375px;
 " class="fadeInAnimation"><h1>Record Transactions and Split with friends</h1></div>
-<br>
-<br>
-<br>
-<br>
 
-<div id="graph" class="card fadeInAnimation">
+<div style="background-color: #c1c8e4;">
+<br>
+<br>
+<h1 style="color: #8860d0; font-weight: bold; font-family: Georgia, 'Times New Roman', Times, serif;">Keep Track of Transactions with Charts and Graphs</h1>
+<div class="split-card-container" style="width: 180vh;">
+<div id="graph" class="card fadeInAnimation split-card" >
     <div class="card-body">
-        <p class="card-title">Keep Track of Transactions with Charts and Graphs</p>
+        <h4>Expenses per category</h4>
         {% if user.is_authenticated %}
-            <div id="myChart" style="max-width: 700px; height: 400px; margin: 20px auto;"></div>
+        <div>
+        <canvas id="myChart"></canvas>
+        </div>
         {% else %}
             <p class="card-text">Login To View</p>
         {% endif %}
     </div>
 </div>
 
-<div class="split-card-container">
-    <div id="broadcast" class="card fadeInAnimation split-card">
-        <div class="card-body">
-            <p class="card-title">Split Debts Equally with Friends and Other Users</p>
-            {% if user.is_authenticated %}
-                <button style="background-color: transparent; border: none; cursor: pointer; margin-top: 20px;">
-                    <div style="color: white;">
-                        <a href="{% url 'viewGroup' %}" style="text-decoration: none; font-weight: bold;">View Broadcast Lists</a>
-                    </div>
-                </button>
-            {% else %}
-                <p class="card-text">Login To View</p>
-            {% endif %}
+<div id="graph2" class="card fadeInAnimation split-card" >
+    <div class="card-body">
+        <h4>Savings per category</h4>
+        {% if user.is_authenticated %}
+        <div>
+        <canvas id="myChart2"></canvas>
         </div>
-    </div>
-
-    <div id="groups" class="card fadeInAnimation split-card">
-        <div class="card-body">
-            <p class="card-title">Add group transactions and Simplify debts in groups</p>
-            {% if user.is_authenticated %}
-                <button style="background-color: transparent; border: none; cursor: pointer; margin-top: 20px;">
-                    <div style="color: white;">
-                        <a href="{% url 'view_expense_groups' %}" style="text-decoration: none; font-weight: bold;">View Expense groups</a>
-                    </div>
-                </button>
-            {% else %}
-                <p class="card-text">Login To View</p>
-            {% endif %}
-        </div>
+        {% else %}
+            <p class="card-text">Login To View</p>
+        {% endif %}
     </div>
 </div>
+</div>
 
-<div class="card fadeInAnimation" style="background: linear-gradient(to right, #a780f1, #73cbf7); font-family: 'Times New Roman', Times, serif; color: #ffffff; text-align: center;">
-    <p class="card-title">Stellar Ledger</p>
+<h1 style="color: #8860d0; font-weight: bold; font-family: Georgia, 'Times New Roman', Times, serif;">Split bills with friends and in groups</h1>
+<div class="split-card-container">
+<div id="links" class="card fadeInAnimation split-card">
+    <div class="card-body">
+        <h4>Broadcasts</h4>
+        <p>Split the bills equally with multiple users.</p>
+        <button class="btn btn-outline-primary" style="color: white;"><a href="">View Broadcasts</a></button>
+    </div>
+</div>
+<div id="links" class="card fadeInAnimation split-card">
+    <div class="card-body">
+        <h4>Groups</h4>
+        <p></p>
+        <button class="btn btn-outline-primary" style="color: white;"><a href="">View Groups</a></button>
+    </div>
+</div>
+<div id="links" class="card fadeInAnimation split-card">
+    <div class="card-body">
+        <h4>Friends</h4>
+        <p></p>
+        <button class="btn btn-outline-primary" style="color: white;"><a href="">View Friends</a></button>
+    </div>
+</div>
+</div>
+
+<div class="fadeInAnimation" style="background: linear-gradient(to right, #a780f1, #73cbf7); font-family: 'Times New Roman', Times, serif; color: #ffffff; text-align: center;">
+    <h4>Stellar Ledger</h4>
     <p class="card-text">For any queries contact: <a href="mailto:stellarledger117@gmail.com" style="color: white; text-decoration: none; font-weight: bold;">stellarledger117@gmail.com</a></p>
 </div>
 
 <script>
-    google.charts.load('current',{packages:['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+    const ctx = document.getElementById('myChart');
 
-    function drawChart() {
-        const data = google.visualization.arrayToDataTable([
-            ['Category', 'Amount'],
-            ['Bills', 55],
-            ['Food', 49],
-            ['Shopping', 44],
-            ['Gifts', 24],
-        ]);
-
-        const options = {
-            title: 'Expenses v/s Category'
-        };
-
-        const chart = new google.visualization.BarChart(document.getElementById('myChart'));
-        chart.draw(data, options);
-
-        let form = document.getElementById("formid");
-
-        function submit_form(e) {
-            e.preventDefault();
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+        labels: [{% for c in cat %}'{{ c.category }}',{% endfor %}],
+        datasets: [{
+            label: 'Expenses per Category',
+            data: [{% for e in expenses %}{{ e }},{% endfor %}],
+            borderWidth: 1
+        }]
+        },
+        options: {
+        scales: {
+            y: {
+            beginAtZero: true
+            }
         }
+        }
+    });
 
-        form.addEventListener('submit', submit_form);
+    const ctx2 = document.getElementById('myChart2');
+
+  new Chart(ctx2, {
+    type: 'pie',
+    data: {
+      labels: [{% for c in cat %}'{{ c.category }}',{% endfor %}],
+      datasets: [{
+        label: 'savings per Category',
+        data: [{% for s in savings %}{{ s }},{% endfor %}],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
     }
+  });
 </script>
 {% endblock %}
