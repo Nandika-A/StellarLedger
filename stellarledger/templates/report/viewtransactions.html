@@ -1,7 +1,9 @@
 {% extends '../base.html' %}
 {% block content %}
-<br>
-<br>
+<h1> <div style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
+  -webkit-text-fill-color: transparent; 
+  -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;
+  text-align: center;">Your Transactions</div></h1>
 <form method = 'get' action = '.' class="form-inline">
     {% csrf_token %}
     <div class="form-group mx-sm-3 mb-2">

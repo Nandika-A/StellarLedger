@@ -1,26 +1,63 @@
 {% extends '../base.html' %}
 {% block content %}
 
-<br>
-<h2 style="text-align: center;">Your friends</h2>
-<ul class="list-group padding">
-    {% for f in friend %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-    {{ f.friend_username }}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        Debt = {{ f.debt }}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        Credit = {{ f.credit }}
-        <span class="badge badge-primary badge-pill"><a href="{% url 'notify' f.friend_username %}" style="color:aliceblue">Notify</a></span>
-    <span class="badge badge-primary badge-pill"><a href="{% url 'adddebt' f.friend_username %}" style="color:aliceblue">Update Debt/Credit</a></span>
-    </li>
-    </li>
-    </li>
-    {% endfor %}
-</ul>
-<br>
-<br>
-<div class=" d-flex align-items-center justify-content-center">
-    <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important;"><a href="{% url 'addfriend' %}">Add new friends with username</a></button>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        color: #495057;
+    }
+
+    h2 {
+        font-family: 'Montserrat', sans-serif;
+        color: #8860d0;
+        text-align: center;
+    }
+
+    .list-group {
+        margin-top: 20px;
+    }
+
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    .btn-lg {
+        background-color: #738bec;
+        color: #fff;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container">
+    <br>
+    <h2>Your Friends</h2>
+    <ul class="list-group">
+        {% for f in friend %}
+        <li class="list-group-item">
+            <h4>{{ f.friend_username }}</h4>
+            <h6>Debt = {{ f.debt }}</h6>
+            <h6>Credit = {{ f.credit }}</h6>
+            <div>
+                <button class="btn btn-outline-primary">
+                    <a href="{% url 'notify' f.friend_username %}">Notify</a>
+                </button>
+                <button class="btn btn-outline-primary">
+                    <a href="{% url 'adddebt' f.friend_username %}">Update Debt/Credit</a>
+                </button>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-lg">
+            <a href="{% url 'addfriend' %}" style="color: #fff;">Add new friends with username</a>
+        </button>
+    </div>
 </div>
+
 {% endblock %}

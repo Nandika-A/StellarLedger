@@ -4,76 +4,162 @@
 {% load static %}
 <script src="{% static 'index.js' %}" type="module" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+    /* Common Styles for Cards */
+    .card {
+        transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+        width: 100%; /* Adjusted width to cover the whole screen */
+        max-width: 100%;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Card Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fadeInAnimation {
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Card Styling */
+    .card-body {
+      text-align: center;
+      background: linear-gradient(to right,#8860d0, #5ab9ea);
+      -webkit-text-fill-color: transparent; 
+      -webkit-background-clip: text; 
+      font-family: Sofia, sans-serif; 
+      font-weight: 900;
+        font-family: 'Times New Roman', Times, serif;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 18px;
+    }
+
+    /* Split Card Container */
+    .split-card-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px auto;
+    }
+
+    /* Individual Split Cards */
+    .split-card {
+        width: 48%; /* Adjusted width to allow for some spacing */
+        border-radius: 10px;
+        margin: 10px 0;
+    }
+</style>
+
 <div style="
 text-align: center;
-background: linear-gradient(to right, #8860d0 , #5ab9ea);
+background: linear-gradient(to right,#8860d0, #5ab9ea);
 -webkit-text-fill-color: transparent; 
 -webkit-background-clip: text; 
 font-family: Sofia, sans-serif; 
 font-weight: 900;
 margin-top: 375px;
-"><h1>Record Transactions and Split with friends</h1></div>
+" class="fadeInAnimation"><h1>Record Transactions and Split with friends</h1></div>
 <br>
 <br>
 <br>
 <br>
-<div id="graph" class="card padding" style="width: 80%;">
-    <div class="card-body" style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
-    -webkit-text-fill-color: transparent; 
-    -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">
-   <p class="card-title"><h3> Keep Track of transactions with charts and graphs</h3></p>
-   {% if user.is_authenticated %}
-   <div id="myChart" style="max-width:700px; height:400px"></div>
-   {% else %}
-   Login To View
-   {% endif %}
+
+<div id="graph" class="card fadeInAnimation">
+    <div class="card-body">
+        <p class="card-title">Keep Track of Transactions with Charts and Graphs</p>
+        {% if user.is_authenticated %}
+            <div id="myChart" style="max-width: 700px; height: 400px; margin: 20px auto;"></div>
+        {% else %}
+            <p class="card-text">Login To View</p>
+        {% endif %}
     </div>
 </div>
 
-<div id = "broadcast" class="card padding" style="width: 80%;">
-  <div class="card-body" style="background: linear-gradient(to right, #8860d0 , #5ab9ea);
-  -webkit-text-fill-color: transparent; 
-  -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;">
- <p class="card-title"><h3> Split debts equally with friends and other users.</h3></p>
- {% if user.is_authenticated %}
- <button style="background-color: transparent;">
- <div style="color: black;">
-  <a href="{% url 'viewGroup' %}">View Broadcast lists</a>
- </div>
- </button>
- {% else %}
- Login To View
- {% endif %}
-  </div>
+<div class="split-card-container">
+    <div id="broadcast" class="card fadeInAnimation split-card">
+        <div class="card-body">
+            <p class="card-title">Split Debts Equally with Friends and Other Users</p>
+            {% if user.is_authenticated %}
+                <button style="background-color: transparent; border: none; cursor: pointer; margin-top: 20px;">
+                    <div style="color: white;">
+                        <a href="{% url 'viewGroup' %}" style="text-decoration: none; font-weight: bold;">View Broadcast Lists</a>
+                    </div>
+                </button>
+            {% else %}
+                <p class="card-text">Login To View</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="groups" class="card fadeInAnimation split-card">
+        <div class="card-body">
+            <p class="card-title">Add group transactions and Simplify debts in groups</p>
+            {% if user.is_authenticated %}
+                <button style="background-color: transparent; border: none; cursor: pointer; margin-top: 20px;">
+                    <div style="color: white;">
+                        <a href="{% url 'view_expense_groups' %}" style="text-decoration: none; font-weight: bold;">View Expense groups</a>
+                    </div>
+                </button>
+            {% else %}
+                <p class="card-text">Login To View</p>
+            {% endif %}
+        </div>
+    </div>
 </div>
-<div class="card" style="width: 100%; background: linear-gradient(to right, #8860d0 , #5ab9ea); font-family: 'Times New Roman', Times, serif; color:white; text-align: center;">
-  <p class="card-title"><h3> Stellar Ledger</h3></p>
-  For any queries contact: stellarledger117@gmail.com
+
+<div class="card fadeInAnimation" style="background: linear-gradient(to right, #a780f1, #73cbf7); font-family: 'Times New Roman', Times, serif; color: #ffffff; text-align: center;">
+    <p class="card-title">Stellar Ledger</p>
+    <p class="card-text">For any queries contact: <a href="mailto:stellarledger117@gmail.com" style="color: white; text-decoration: none; font-weight: bold;">stellarledger117@gmail.com</a></p>
 </div>
+
 <script>
     google.charts.load('current',{packages:['corechart']});
     google.charts.setOnLoadCallback(drawChart);
+
     function drawChart() {
-  const data = google.visualization.arrayToDataTable([
-    ['Category', 'Amount'],
-    ['Bills', 55],
-    ['Food', 49],
-    ['Shopping', 44],
-    ['Gifts', 24],
-  ]);
-  const options = {
-    title: 'Expenses v/s Category'
-  };
+        const data = google.visualization.arrayToDataTable([
+            ['Category', 'Amount'],
+            ['Bills', 55],
+            ['Food', 49],
+            ['Shopping', 44],
+            ['Gifts', 24],
+        ]);
 
-  const chart = new google.visualization.BarChart(document.getElementById('myChart'));
-  chart.draw(data, options);
+        const options = {
+            title: 'Expenses v/s Category'
+        };
 
-  let form=document.getElementById("formid")
+        const chart = new google.visualization.BarChart(document.getElementById('myChart'));
+        chart.draw(data, options);
 
-  function submit_form(e){
-    e.preventDefault()
-  }
-  form.addEventListener('submit', submit_form)
-}
+        let form = document.getElementById("formid");
+
+        function submit_form(e) {
+            e.preventDefault();
+        }
+
+        form.addEventListener('submit', submit_form);
+    }
 </script>
 {% endblock %}
