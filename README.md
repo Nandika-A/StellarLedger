@@ -1,6 +1,6 @@
 # StellarLedger
 Record transactions, split bills, simplify and repay debts with ease.\
-![Demo Video](https://youtu.be/boo4ZobXwfg?feature=shared)
+[Demo Video](https://youtu.be/boo4ZobXwfg?feature=shared)
 ## Tech Stack
 ### Backend
 1. Django
