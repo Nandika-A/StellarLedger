@@ -4,6 +4,8 @@
   -webkit-text-fill-color: transparent; 
   -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;
   text-align: center;">Your Transactions</div></h1>
+  <button type="button" class="btn float-right" style="background-color: #c1c8e4 !important; margin-right: 10%;"><a href="{% url 'viewCategories' %}">View Custom Categories</a></button>
+  <br>
 <form method = 'get' action = '.' class="form-inline">
     {% csrf_token %}
     <div class="form-group mx-sm-3 mb-2">
@@ -16,7 +18,6 @@
     </div>
       <button type="submit" class="btn mb-2" style="background-color: #c1c8e4;">Apply</button>
 </form>
-
 <div class="card text-center">
     {% for c in cat %}
     <div class="text-center padding">

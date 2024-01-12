@@ -88,9 +88,6 @@
                 <a class="nav-link" href="{% url 'viewTransaction' %}">Reports</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'viewCategories' %}">Categories</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href="{% url 'eth' %}">Track Ethereum</a>
               </li>
               <li class="nav-item">
@@ -102,17 +99,12 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'viewGroup' %}">Broadcast lists</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#graph">Graphs</a>
-              </li>
               {% if user.is_authenticated %}
               <li class="nav-item dropdown">
                 <button class="nav-link dropdown-toggle" onclick="dropdown()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #9c7bda;">
                   <i class="fas fa-user">{{ user.username }}</i>
                 </button>
                 <div class="dropdown-menu" id="dropdownuser">
-                  <a class="dropdown-item" href="{% url 'account_reauthenticate' %}">Reauthenticate</a>
-                  <a class="dropdown-item" href="{% url 'account_change_password' %}">Password Change</a>
                   <a class="dropdown-item" href="{% url 'account_reset_password' %}">Password Reset</a>
                   <a class="dropdown-item" href="{% url 'account_set_password' %}">Set Password</a>
                   <a class="dropdown-item" href="{% url 'account_email_verification_sent' %}">Confirm Email</a>
