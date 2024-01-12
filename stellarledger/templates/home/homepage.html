@@ -2,9 +2,6 @@
 {% block content %}
 
 {% load static %}
-<script src="{% static 'index.js' %}" type="module" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
     /* Common Styles for Cards */
     .card {
@@ -143,7 +140,9 @@ margin-top: 375px;
     <h4>Stellar Ledger</h4>
     <p class="card-text">For any queries contact: <a href="mailto:stellarledger117@gmail.com" style="color: white; text-decoration: none; font-weight: bold;">stellarledger117@gmail.com</a></p>
 </div>
-
+<script src="{% static 'index.js' %}" type="module" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('myChart');
 
@@ -187,4 +186,5 @@ margin-top: 375px;
     }
   });
 </script>
+
 {% endblock %}
