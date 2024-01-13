@@ -4,7 +4,9 @@
   -webkit-text-fill-color: transparent; 
   -webkit-background-clip: text; font-family: 'Times New Roman', Times, serif;
   text-align: center;">Your Transactions</div></h1>
-  <button type="button" class="btn float-right" style="background-color: #c1c8e4 !important; margin-right: 10%;"><a href="{% url 'viewCategories' %}">View Custom Categories</a></button>
+  <button type="button" class="btn float-right" style="background-color: #c1c8e4 !important; margin-right: 8%;"><a href="{% url 'viewCategories' %}">View Custom Categories</a></button>
+  <button type="button" class="btn float-right" style="background-color: #c1c8e4 !important; margin-right: 1%;"><a href="{% url 'record' %}">Record Transaction</a></button>
+  <button type="button" class="btn float-right" style="background-color: #c1c8e4 !important; margin-right: 1%;"><a href="{% url 'recurring' %}">View Recurring</a></button>
   <br>
 <form method = 'get' action = '.' class="form-inline">
     {% csrf_token %}
@@ -59,12 +61,10 @@
   {% endfor %}
 </div>
 <br>
-<h5>
+<div class=" d-flex align-items-center justify-content-center">
+  <h5>
 <div id="save" class="d-inline p-2 ">Total Savings: {{savings}}</div>
 <div id="expense" class="d-inline p-2 ">Total Expenses: {{expenses}}</div>
 </h5>
-<div class=" d-flex align-items-center justify-content-center">
-  <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important;"><a href="{% url 'record' %}">Record Transaction</a></button>
-  <button type="button" class="btn btn-lg" style="background-color: #c1c8e4 !important; margin-left: 10px;"><a href="{% url 'recurring' %}">View Recurring</a></button>
 </div>
 {% endblock %}
