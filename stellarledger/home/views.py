@@ -24,4 +24,7 @@ def homepage(request):
         'cat': cat,
         'savings': savings
     })
-    
+
+
+def trackethereum(request):
+    return render(request, 'home/eth.html')

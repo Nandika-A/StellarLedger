@@ -10,5 +10,4 @@ urlpatterns = [
     path('updatecategory/<int:id>/', views.changeTransactionCategory, name='changecategory'),
     path('deleteTransaction/<int:id>/', views.deleteTransaction, name='deleteTransaction'),
     path('recurringbills/', views.recurringbills, name='recurring'),
-    path('eth/', views.trackethereum, name='eth')
 ]

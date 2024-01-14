@@ -122,7 +122,4 @@ def recurringbills(request):
     txn = Transaction.objects.filter(user=request.user, recurring='Yes', timestamp__gt=date.today())
     return render(request, 'report/reminder.html', {
         'txn': txn
-    })  
-
-def trackethereum(request):
-    return render(request, 'home/eth.html')
+    })
