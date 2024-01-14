@@ -26,15 +26,20 @@ Stellar Ledger has multiple features that users require to maintain their financ
 **7. Recurring debts:** Users get weekly notifications about their recurring bills before their due dates.\
 
 ## Guide to use the project
-1. First, fork and clone the repository.\
+1. Install python and pip.
+2. First, fork and clone the repository.\
     `https://github.com/<username>/StellarLedger.git`
-2. Step into the newly created stellarledger directory.\
+3. Set up the virtual environment.\
+    `python3 -m venv <env_name>`
+4. Start the virtual environment.\
+    `source .<env_name>/bin/activate`
+5. Step into the newly created stellarledger directory.\
    `cd stellarledger`
-3.  Install the requirements.\
+6.  Install the requirements.\
    `pip install -r requirements.txt`
-4.  Run the migration into database schema.\
+7.  Run the migration into database schema.\
    `python3 manage.py migrate`
-5.  Set the Google All-Auth API key.\
+8.  Set the Google All-Auth API key in settings.py.\
     `EMAIL_HOST_PASSWORD = <your_password>`
-6. Start the django server.\
+9. Start the django server.\
     `python3 manage.py runserver`
